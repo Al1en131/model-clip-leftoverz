@@ -6,7 +6,6 @@ import io
 
 app = Flask(__name__)
 
-# Load model dan preprocessing CLIP
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
 
