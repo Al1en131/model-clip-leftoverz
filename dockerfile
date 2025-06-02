@@ -1,20 +1,26 @@
-# Gunakan base image Python resmi versi 3.10 slim (ringan)
 FROM python:3.10-slim
 
-# Set working directory di dalam container
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set work directory
 WORKDIR /app
 
-# Salin file requirements.txt ke container
-COPY requirements.txt .
+# Copy files
+COPY . /app/
 
-# Install dependencies langsung di global Python environment tanpa virtualenv
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python deps with CPU-only PyTorch
+RUN pip install --upgrade pip
+RUN pip install --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt
 
-# Salin semua kode project ke container
-COPY . .
+# Expose port
+EXPOSE 10000
 
-# Expose port yang dipakai Flask (5000)
-EXPOSE 5000
-
-# Jalankan app.py saat container dijalankan
+# Start the app
 CMD ["python", "app.py"]

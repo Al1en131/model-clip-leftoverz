@@ -1,7 +1,10 @@
+flask
 ftfy
-packaging
 regex
 tqdm
+packaging
 Pillow
-flask
+torch==2.0.1+cpu
+torchvision==0.15.2+cpu
+torchaudio==2.0.2+cpu
 git+https://github.com/openai/CLIP.git
